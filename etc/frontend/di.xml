@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Hyvä checkout support -->
+    <type name="Hyva\Checkout\Model\Magewire\Payment\PlaceOrderServiceProvider">
+        <arguments>
+            <argument name="placeOrderServiceList" xsi:type="array">
+                <item name="avarda_payments_invoice" xsi:type="object">Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\PlaceOrderService</item>
+                <item name="avarda_payments_direct_invoice" xsi:type="object">Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\PlaceOrderService</item>
+                <item name="avarda_payments_loan" xsi:type="object">Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\PlaceOrderService</item>
+                <item name="avarda_payments_partpayment" xsi:type="object">Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\PlaceOrderService</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Avarda\HyvaAvardaPaymentCompatible\ViewModel\HyvaCheckoutAvardaPayments">
+        <arguments>
+            <argument name="avardaInvoiceProvider" xsi:type="object">AvardaPaymentsInvoiceInstructionProvider</argument>
+        </arguments>
+        <arguments>
+            <argument name="avardaDirectInvoiceProvider" xsi:type="object">AvardaPaymentsDirectInvoiceInstructionProvider</argument>
+        </arguments>
+        <arguments>
+            <argument name="avardaLoanProvider" xsi:type="object">AvardaPaymentsLoanInstructionProvider</argument>
+        </arguments>
+        <arguments>
+            <argument name="avardaPartPaymentProvider" xsi:type="object">AvardaPaymentsPartPaymentInstructionProvider</argument>
+        </arguments>
+    </type>
+</config>

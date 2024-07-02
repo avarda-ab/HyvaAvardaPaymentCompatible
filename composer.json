@@ -1,0 +1,22 @@
+{
+    "name": "avarda/module-hyva-avarda-payment-compatible",
+    "version": "1.0.0",
+    "description": "N/A",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*",
+        "magento/module-quote": "*",
+        "magento/module-checkout": "*",
+        "hyva-themes/magento2-compat-module-fallback": "*",
+        "avarda/payments": "*",
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Avarda\\HyvaAvardaPaymentCompatible\\": ""
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<?php
+
+use Hyva\Checkout\Magewire\Checkout\Payment\Method\PurchaseOrder;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var PurchaseOrder $magewire */
+/** @var Escaper $escaper */
+
+?>
+<div class="col-span-6">
+    <div class="block font-medium text-gray-700">
+        <span class="text-gray-500 font-medium text-sm">
+            <?php
+            // Get the method from last part of layout name
+            $parts = explode('.', $block->getNameInLayout());
+            $method = end($parts);
+            echo $magewire->getTermsHtml($method);
+            ?>
+        </span>
+    </div>
+    <br>
+    <label class="block font-medium text-gray-700">
+        <?= $escaper->escapeHtml(__('Social Security Number')) ?>
+        <input wire:model.delay.1500ms="socialSecurityNumber"
+               type="text" class="block w-full shadow-sm border-gray-300 rounded-md"
+        />
+    </label>
+    <br>
+    <?php if ($magewire->hasError('socialSecurityNumber')): ?>
+        <p class="text-red-500 mt-4 text-sm">
+            <?= $escaper->escapeHtml($magewire->getError('socialSecurityNumber')) ?>
+        </p>
+    <?php endif ?>
+</div>
