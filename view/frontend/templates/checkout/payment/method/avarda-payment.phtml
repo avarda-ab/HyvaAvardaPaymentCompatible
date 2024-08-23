@@ -23,8 +23,9 @@ use Magento\Framework\View\Element\Template;
     <br>
     <label class="block font-medium text-gray-700">
         <?= $escaper->escapeHtml(__('Social Security Number')) ?>
-        <input wire:model.delay.1500ms="socialSecurityNumber"
-               type="text" class="block w-full shadow-sm border-gray-300 rounded-md" />
+        <input wire:model.lazy="socialSecurityNumber"
+               type="text" class="block w-full shadow-sm border-gray-300 rounded-md"
+        />
     </label>
     <br>
     <?php if ($magewire->hasError('socialSecurityNumber')): ?>
