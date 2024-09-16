@@ -3,21 +3,18 @@
 namespace Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\Method;
 
 use Avarda\HyvaAvardaPaymentCompatible\ViewModel\HyvaCheckoutAvardaPayments;
+use Hyva\Checkout\Model\Magewire\Component\Evaluation\EvaluationResult;
 use Hyva\Checkout\Model\Magewire\Component\EvaluationInterface;
 use Hyva\Checkout\Model\Magewire\Component\EvaluationResultFactory;
 use Hyva\Checkout\Model\Magewire\Component\EvaluationResultInterface;
-use Hyva\Checkout\Model\Magewire\Payment\PlaceOrderServiceProcessor;
 use Magento\Checkout\Model\Session as SessionCheckout;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Quote\Api\CartManagementInterface;
-use Magento\Quote\Api\CartRepositoryInterface as QuoteRepositoryInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
-use Magento\Quote\Model\QuoteManagement;
-use Magewirephp\Magewire\Component;
+use Magewirephp\Magewire\Component\Form;
 use Rakit\Validation\Validator;
 
-class AvardaPayments extends Component\Form implements EvaluationInterface
+class AvardaPayments extends Form implements EvaluationInterface
 {
     public ?string $socialSecurityNumber = null;
 
@@ -34,32 +31,19 @@ class AvardaPayments extends Component\Form implements EvaluationInterface
     ];
 
     protected SessionCheckout $sessionCheckout;
-
     protected CartRepositoryInterface $quoteRepository;
-
-    protected CartManagementInterface $quoteManagement;
-
-    protected CartRepositoryInterface $cartRepository;
-
-    protected PlaceOrderServiceProcessor $placeOrderServiceProcessor;
     protected HyvaCheckoutAvardaPayments $hyvaCheckoutAvardaPayments;
 
     public function __construct(
         Validator $validator,
         SessionCheckout $sessionCheckout,
         CartRepositoryInterface $quoteRepository,
-        QuoteRepositoryInterface $cartRepository,
-        QuoteManagement $quoteManagement,
-        PlaceOrderServiceProcessor $placeOrderServiceProcessor,
         HyvaCheckoutAvardaPayments $hyvaCheckoutAvardaPayments
     ) {
         parent::__construct($validator);
 
         $this->sessionCheckout = $sessionCheckout;
         $this->quoteRepository = $quoteRepository;
-        $this->cartRepository = $cartRepository;
-        $this->quoteManagement = $quoteManagement;
-        $this->placeOrderServiceProcessor = $placeOrderServiceProcessor;
         $this->hyvaCheckoutAvardaPayments = $hyvaCheckoutAvardaPayments;
     }
 
@@ -74,7 +58,7 @@ class AvardaPayments extends Component\Form implements EvaluationInterface
     }
 
     /**
-     * Listen for the Purchase Order Number been updated.
+     * Listen for the Ssn to be updated.
      */
     public function updatedSocialSecurityNumber(string $value): ?string
     {
@@ -92,7 +76,13 @@ class AvardaPayments extends Component\Form implements EvaluationInterface
         return $value;
     }
 
-    public function evaluateCompletion(EvaluationResultFactory $resultFactory): EvaluationResultInterface
+    /**
+     * Validate that ssn is set
+     *
+     * @param EvaluationResultFactory $resultFactory
+     * @return EvaluationResult
+     */
+    public function evaluateCompletion(EvaluationResultFactory $resultFactory): EvaluationResult
     {
         if ($this->socialSecurityNumber === null) {
             return $resultFactory->createErrorMessageEvent()

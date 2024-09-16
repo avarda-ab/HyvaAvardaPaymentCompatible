@@ -1,11 +1,11 @@
 <?php
 
-use Hyva\Checkout\Magewire\Checkout\Payment\Method\PurchaseOrder;
+use Avarda\HyvaAvardaPaymentCompatible\Model\Magewire\Checkout\Payment\Method\AvardaPayments;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
-/** @var PurchaseOrder $magewire */
+/** @var AvardaPayments $magewire */
 /** @var Escaper $escaper */
 
 ?>
@@ -23,7 +23,7 @@ use Magento\Framework\View\Element\Template;
     <br>
     <label class="block font-medium text-gray-700">
         <?= $escaper->escapeHtml(__('Social Security Number')) ?>
-        <input wire:model.delay.1500ms="socialSecurityNumber"
+        <input wire:model.lazy="socialSecurityNumber"
                type="text" class="block w-full shadow-sm border-gray-300 rounded-md"
         />
     </label>
