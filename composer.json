@@ -1,6 +1,6 @@
 {
     "name": "avarda/module-hyva-avarda-payment-compatible",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "N/A",
     "type": "magento2-module",
     "require": {
